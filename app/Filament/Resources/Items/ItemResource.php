@@ -24,12 +24,12 @@ class ItemResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return ItemForm::configure($schema);
+        return ItemForm::form($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return ItemsTable::configure($table);
+        return ItemsTable::table($table);
     }
 
     public static function getRelations(): array

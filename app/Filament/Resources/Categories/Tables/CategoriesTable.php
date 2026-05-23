@@ -7,34 +7,45 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Actions\DeleteAction;
+use Filament\Schemas\Schema;
 
 class CategoriesTable
 {
-    public static function configure(Table $table): Table
-    {
-        return $table
-            ->columns([
-                TextColumn::make('nama_kategori')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+     public static function configure(Table $table): Table
+{
+    return $table
+        ->columns([
+            ImageColumn::make('image')
+                ->label('Foto')
+                ->disk('public'),
+
+            TextColumn::make('nama_kategori')
+                ->label('Kategori')
+                ->searchable()
+                ->sortable(),
+
+            TextColumn::make('deskripsi')
+                ->label('Deskripsi')
+                ->limit(50),
+
+            TextColumn::make('created_at')
+                ->label('Ditambahkan')
+                ->dateTime('d M Y')
+                ->sortable(),
+        ])
+        ->filters([
+            //
+        ])
+        ->actions([
+           EditAction::make(),
+            DeleteAction::make(),
+        ])
+        ->bulkActions([
+            BulkActionGroup::make([
+              DeleteBulkAction::make(),
+            ]),
+        ]);
+}
 }
